@@ -34,7 +34,6 @@
     h1 {
       font-size: 3em;
       color: #8a6fb4;
-      margin-bottom: 8px;
     }
 
 
@@ -95,7 +94,31 @@
       /* 預留空間避免跳動 */
     }
 
-
+    @media screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.8em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .typing-box {
+    transform: scale(0.85);
+    transform-origin: top center;
+    max-width: 100%;
+  }
+  
+  #secretMessage #scratchCanvas{
+    transform: scale(0.85);
+    transform-origin: top center;
+    max-width: 95%;
+    /* font-size: 1em !important; */
+  }
+  
+  .heart {
+    font-size: 1.2em;
+    margin: 0;
+  }
+}
   </style>
 </head>
 
@@ -107,19 +130,22 @@
     </div>
     <div style="margin-top: 50px; position: relative; width: 80%; max-width: 600px;">
       <div id="secretMessage"
-        style="color: #a77480; font-size: 1.2em; padding: 15px; background-color: #fffafc; border-radius: 10px; z-index: 0;">
-        抱歉，想也知道我沒那麼有文采，這裡才是真的我自己打ㄉ：<br>
+        style="color: #a77480; padding: 15px; background-color: #fffafc; border-radius: 10px; z-index: 0;">
+        抱歉，想也知道我沒有文采<br>
+        這裡才是真的我自己打ㄉ：<br>
         <br>
-        哲哲...長大ㄌ...沒想到這麼突然.....<br>
-        祝你倆百年好合，永結同心 💍💘💘💘<br>
+        哲哲...長大ㄌ，<br>
+        沒想到這麼突然.....<br>
+        祝你倆百年好合，永結同心 💍<br>
         雖然很shock但真的很替你開心。<br>
-        幸福快樂一輩子❤️‍🔥❤️‍🔥❤️‍🔥<br>
+        祝福幸福快樂一輩子❤️‍🔥❤️‍🔥❤️‍🔥<br>
       </div>
       <canvas id="scratchCanvas" style="position:absolute; top:0; left:0; z-index: 1; border-radius: 10px;"></canvas>
     </div>
+
   </div>
 
-  <div class="signature">榆</div>
+  <div class="signature" style="font-size: 0.5em;">榆</div>
 
   <script>
     // Heart Particle Generator
@@ -198,7 +224,7 @@
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // 畫上去誘拐字（你可以改成任何話）
+      // 誘拐字
       ctx.fillText('刮我', canvas.width / 2, canvas.height / 2);
     }
 
