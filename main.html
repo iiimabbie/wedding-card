@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>💍💍💍</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&family=New+Tegomin&display=swap');
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff0f0;
+      font-family: "New Tegomin", serif;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .container {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1;
+      color: #c71515;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #8a6fb4;
+    }
+
+
+    .heart {
+      font-size: 1.5em;
+      color: #ff66a3;
+      animation: pulse 1s infinite;
+      margin: 0 0 10px 0;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .signature {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 1.2em;
+      color: #cc3366;
+    }
+
+    .heart-particle {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        top: 100%;
+        opacity: 1;
+      }
+
+      100% {
+        top: -10%;
+        opacity: 0;
+      }
+    }
+
+    #scratchCanvas {
+      cursor: crosshair;
+    }
+
+    #secretMessage {
+      min-height: 180px;
+      /* 預留空間避免跳動 */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>💒 康淜 & 雨潔 💒</h1>
+    <p class="heart">💘💘💘</p>
+    <div class="typing-box" id="typingBox" style="min-height: 180px; font-size: 1.2em">
+    </div>
+    <div style="margin-top: 50px; position: relative; width: 80%; max-width: 600px;">
+      <div id="secretMessage"
+        style="color: #a77480; font-size: 1.2em; padding: 15px; background-color: #fffafc; border-radius: 10px; z-index: 0;">
+        抱歉，想也知道我沒那麼有文采，這裡才是真的我自己打ㄉ：<br>
+        <br>
+        哲哲...長大ㄌ...沒想到這麼突然.....<br>
+        祝你倆百年好合，永結同心 💍💘💘💘<br>
+        雖然很shock但真的很替你開心。<br>
+        幸福快樂一輩子❤️‍🔥❤️‍🔥❤️‍🔥<br>
+      </div>
+      <canvas id="scratchCanvas" style="position:absolute; top:0; left:0; z-index: 1; border-radius: 10px;"></canvas>
+    </div>
+
+  </div>
+
+  <div class="signature">榆</div>
+
+  <script>
+    // Heart Particle Generator
+    const heartCount = 40;
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-particle';
+      heart.textContent = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      document.body.appendChild(heart);
+    }
+
+    // 打字特效
+    const lines = [
+      '願有歲月可回首,且以深情共白頭👴🏻👵🏻',
+      '祝你們不光有生活中的柴米油鹽',
+      '還有旅途中的',
+      '良辰美景,星辰大海🌟🌊',
+      '祝你們山河遠闊,保持熱愛🌄',
+      '永遠幸福快樂💍'
+    ];
+
+    const typingBox = document.getElementById('typingBox');
+    let lineIndex = 0;
+
+    function typeLine(text, callback) {
+      const span = document.createElement('div');
+      span.className = 'line';
+      typingBox.appendChild(span);
+
+      let i = 0;
+      function typeChar() {
+        if (i < text.length) {
+          span.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeChar, 50);
+        } else {
+          span.classList.remove('line');
+          span.classList.add('no-caret');
+          callback();
+        }
+      }
+
+      typeChar();
+    }
+
+    function typeNextLine() {
+      if (lineIndex < lines.length) {
+        typeLine(lines[lineIndex], () => {
+          lineIndex++;
+          setTimeout(typeNextLine, 800);
+        });
+      }
+    }
+
+    typeNextLine();
+
+    // 刮刮樂區塊
+    const canvas = document.getElementById('scratchCanvas');
+    const messageDiv = document.getElementById('secretMessage');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = messageDiv.offsetWidth;
+      canvas.height = messageDiv.offsetHeight;
+
+      // 粉紅底遮罩
+      ctx.fillStyle = '#ffccd5';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 文字設定
+      ctx.font = 'bold 24px New Tegomin, serif';
+      ctx.fillStyle = '#c71515';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // 畫上去誘拐字（你可以改成任何話）
+      ctx.fillText('刮我', canvas.width / 2, canvas.height / 2);
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      const rect = canvas.getBoundingClientRect();
+      lastX = e.clientX - rect.left;
+      lastY = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      drawScratch(e.clientX, e.clientY);
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isDrawing = false;
+      checkReveal();
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      isDrawing = false;
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      isDrawing = true;
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      lastX = touch.clientX - rect.left;
+      lastY = touch.clientY - rect.top;
+      e.preventDefault();
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      drawScratch(touch.clientX, touch.clientY);
+      e.preventDefault();
+    });
+
+    canvas.addEventListener('touchend', () => {
+      isDrawing = false;
+      checkReveal();
+    });
+
+    function drawScratch(x, y) {
+      const rect = canvas.getBoundingClientRect();
+      x = x - rect.left;
+      y = y - rect.top;
+
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = 40;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+
+      lastX = x;
+      lastY = y;
+    }
+
+    // 檢查是否已經刮掉超過50%
+    function checkReveal() {
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imageData.data;
+      let transparentPixels = 0;
+
+      for (let i = 3; i < pixels.length; i += 4) {
+        if (pixels[i] < 128) {
+          transparentPixels++;
+        }
+      }
+
+      const totalPixels = canvas.width * canvas.height;
+      const percent = transparentPixels / totalPixels;
+
+      if (percent > 0.5) {
+        canvas.style.transition = 'opacity 0.6s';
+        canvas.style.opacity = 0;
+        setTimeout(() => canvas.remove(), 800);
+      }
+    }
+
+  </script>
+</body>
+
+</html>
